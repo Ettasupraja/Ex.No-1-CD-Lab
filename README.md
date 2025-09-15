@@ -4,7 +4,7 @@
 
 # Register Number : 212223220022
 
-# Date : 24.08.2025
+# Date : 24/08/2025
 
 # AIM:
 
@@ -22,21 +22,19 @@ To write a C program to implement a symbol table.
 8. Stop the program.
 
 # PROGRAM:
-
 ```
 #include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include <stdlib.h>
 
 #define MAX_EXPRESSION_SIZE 100
 
 int main() {
     int i = 0, j = 0, x = 0, n, flag = 0;
-    void *add[15];   // increased size for safety
+    void *add[5];
     char b[MAX_EXPRESSION_SIZE], d[15], c, srch;
 
-    // Input expression
     printf("Enter the Expression terminated by $: ");
     while ((c = getchar()) != '$' && i < MAX_EXPRESSION_SIZE - 1) {
         b[i++] = c;
@@ -46,56 +44,56 @@ int main() {
 
     printf("Given Expression: %s\n", b);
 
-    // Print header
     printf("\nSymbol Table\n");
     printf("Symbol\taddr\ttype\n");
 
-    // Build symbol table
     for (j = 0; j <= n; j++) {
         c = b[j];
         if (isalpha((unsigned char)c)) {
-            // allocate memory for identifier
-            void *p = malloc(sizeof(char));
-            add[x] = p;
-            d[x] = c;
-            printf("%c\t%p\tidentifier\n", c, p);
-            x++;
+            if (j == n) {
+                void *p = malloc(sizeof(char));
+                add[x] = p;
+                d[x] = c;
+                printf("%c\t%p\tidentifier\n", c, p);
+            } else {
+                char ch = b[j + 1];
+                if (ch == '+' || ch == '-' || ch == '*' || ch == '=') {
+                    void *p = malloc(sizeof(char));
+                    add[x] = p;
+                    d[x] = c;
+                    printf("%c\t%p\tidentifier\n", c, p);
+                    x++;
+                }
+            }
         }
     }
 
-    // Search symbol
     printf("\nThe symbol to be searched: ");
-    while ((srch = getchar()) == '\n');   // skip newline
+    getchar();
+    srch = getchar();
 
     for (i = 0; i < x; i++) {
         if (srch == d[i]) {
             printf("Symbol Found\n");
             printf("%c@address%p\n", srch, add[i]);
             flag = 1;
-            break;
         }
     }
 
     if (flag == 0)
         printf("Symbol Not Found\n");
 
-    // Free allocated memory
     for (i = 0; i < x; i++) {
         free(add[i]);
     }
 
     return 0;
 }
+
 ```
-
 # OUTPUT:
-
-<img width="1482" height="753" alt="Screenshot 2025-08-23 085121" src="https://github.com/user-attachments/assets/e197cbeb-503a-410e-8ea7-fba9f09591cf" />
-
-
-
-<img width="1479" height="751" alt="Screenshot 2025-08-23 085210" src="https://github.com/user-attachments/assets/77dcf712-f01e-4d2e-b533-95cfb8c0f724" />
-
+<img width="558" height="498" alt="image" src="https://github.com/user-attachments/assets/511adf41-7672-47ee-8772-94faf1107668" />
+<img width="543" height="514" alt="image" src="https://github.com/user-attachments/assets/67e7332e-c311-421e-9b72-eee2675f9174" />
 
 # RESULT:
 
